@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import User from "./Component/User";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const url = 'https://dummyjson.com'
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state= {
+      users: []
+    }
+  }
+
+  componentDidMount() {
+    //
+    fetch(`${url}/users`)
+    .then(res => res.json())
+    .then(out => {
+      console.log('users =', out)
+      this.setState({
+        users: out.users
+      })
+    }).catch(err => console.log(err.message))
+  }
+
+  render() {
+    return(
+      <div className="container">
+        <div className="row">
+          <div className="col-md-12 text-center">
+            <h4 className="display-3 text-success">PROPS IN CLASS COMPONENT</h4>
+          </div>
+        </div>
+        <User users={this.state.users} />
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
